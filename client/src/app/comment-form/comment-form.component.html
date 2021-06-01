@@ -1,0 +1,15 @@
+<div class="card my-5">
+  <div class="card-body">
+    <form (ngSubmit)="onSubmit()" #commentForm="ngForm">
+      <div class="form-group">
+        <label for="content">Comment</label>
+        <input type="text" [(ngModel)]="comment.content" 
+          class="form-control" 
+          id="content" 
+          name="content" 
+          placeholder="Enter post comment">
+      </div>       
+      <button type="submit" class="btn btn-info">Submit</button>
+    </form>
+  </div>
+</div>

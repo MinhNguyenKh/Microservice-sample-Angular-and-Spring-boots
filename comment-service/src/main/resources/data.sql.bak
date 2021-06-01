@@ -1,0 +1,8 @@
+insert into comment values(2001, 'Comment Post 1', 1001);
+insert into comment values(2002, 'Comment Post 1', 1001);
+insert into comment values(2003, 'Comment Post 1', 1001);
+insert into comment values(2004, 'Comment Post 2', 1002);
+insert into comment values(2005, 'Comment Post 2', 1002);
+insert into comment values(2006, 'Comment Post 3', 1003);
+insert into comment values(2007, 'Comment Post 4', 1004);
+insert into comment values(2008, 'Comment Post 5', 1005);
