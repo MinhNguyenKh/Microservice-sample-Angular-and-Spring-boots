@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/posts")
 @Slf4j
 @CrossOrigin(origins = "http://localhost:4200")
 public class PostController {
@@ -19,19 +19,19 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @PostMapping("/posts")
+    @PostMapping("/")
     public Post createPost(@RequestBody Post post){
         log.info("PostController - creating post");
         return postService.createPost(post);
     }
 
-    @GetMapping("/posts")
+    @GetMapping("/")
     public List<Post> getAllPosts(){
         log.info("PostController - getting all posts");
         return postService.getAllPosts();
     }
 
-    @GetMapping("/posts/{id}")
+    @GetMapping("/{id}")
     public Post findPostById(@PathVariable("id") Long postId){
         log.info("PostController - finding post");
         return postService.findPostById(postId);
@@ -42,7 +42,7 @@ public class PostController {
         return postService.getAllPostWithComments();
     }
 
-    @PostMapping("/posts/events")
+    @PostMapping("/events")
     public String getMessageFromEvenBus(@RequestBody String message){
         return postService.getMessageFromEvenBus(message);
     }

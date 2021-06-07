@@ -17,7 +17,7 @@ import java.net.URI;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/query")
 @CrossOrigin(origins = "http://localhost:4200")
 public class CommentController {
 
@@ -27,7 +27,7 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @PostMapping("/query/posts/{id}/comments")
+    @PostMapping("/posts/{id}/comments")
     public ResponseEntity<Object> createComment(@PathVariable Long id, @RequestBody Comment comment) {
         //Optional<Post> postOptional = postRepository.findById(id);
         Optional<Post> postOptional = postService.findById(id);

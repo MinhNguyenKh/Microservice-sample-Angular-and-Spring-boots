@@ -7,16 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/events")
 @Slf4j
 public class EvenBusController {
 
     @Autowired
     private EvenBusService evenBusService;
 
-    @PostMapping("/events")
+    @PostMapping("/")
     public String getEvent(@RequestBody ResponseTemplateVO responseTemplateVO){
         return evenBusService.getEvent(responseTemplateVO);
+    }
+
+    @GetMapping("/")
+    public String getTest(){
+        return "Minh";
     }
 
 }

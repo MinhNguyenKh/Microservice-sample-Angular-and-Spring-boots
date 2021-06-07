@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/comments")
 @CrossOrigin(origins = "http://localhost:4200")
 public class CommentController {
 
     @Autowired
     private CommentService commentService;
 
-    @PostMapping("/comments")
+    @PostMapping("/")
     public Comment createComment(@RequestBody Comment comment){
         return commentService.createComment(comment);
     }
 
-    @GetMapping("/comments")
+    @GetMapping("/")
     public List<Comment> getAllComment(){
         return commentService.getAllComment();
     }
@@ -31,12 +31,12 @@ public class CommentController {
 //        return commentService.getCommentOfPost(commentId);
 //    }
 
-    @GetMapping("/comments/{id}")
+    @GetMapping("/{id}")
     public List<Comment> findCommentByPostId(@PathVariable("id") Long postId){
         return commentService.findCommentByPostId(postId);
     }
 
-    @PostMapping("/comments/events")
+    @PostMapping("/events")
     public String getMessageFromEvenBus(@RequestBody String message){
         return commentService.getMessageFromEvenBus(message);
     }

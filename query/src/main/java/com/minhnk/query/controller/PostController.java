@@ -12,19 +12,19 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/query")
 @CrossOrigin(origins = "http://localhost:4200")
 public class PostController {
 
     @Autowired
     private PostService postService;
 
-    @GetMapping("/query/posts")
+    @GetMapping("/posts")
     public List<Post> getAllPosts() {
         return postService.findAll();
     }
 
-    @PostMapping("/query/posts")
+    @PostMapping("/posts")
     public ResponseEntity<Object> createPost(@RequestBody Post post) {
         Post savedPost = postService.save(post);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedPost.getId())

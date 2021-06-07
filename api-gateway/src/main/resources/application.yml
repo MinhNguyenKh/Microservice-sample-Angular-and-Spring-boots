@@ -1,0 +1,33 @@
+server:
+  port: 5000
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: POST-SERVICE
+          uri: lb://POST-SERVICE
+          predicates:
+            - Path=/api/posts/**
+        - id: COMMENT-SERVICE
+          uri: lb://COMMENT-SERVICE
+          predicates:
+            - Path=/api/comments/**
+        - id: EVEN-BUS-SERVICE
+          uri: lb://EVEN-BUS-SERVICE
+          predicates:
+            - Path=/api/events/**
+        - id: QUERY-SERVICE
+          uri: lb://QUERY-SERVICE
+          predicates:
+            - Path=/api/query/**
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
