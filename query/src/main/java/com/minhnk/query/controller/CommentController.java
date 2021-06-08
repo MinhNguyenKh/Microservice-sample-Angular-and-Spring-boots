@@ -18,7 +18,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/query")
-@CrossOrigin(origins = "http://localhost:4200")
 public class CommentController {
 
     @Autowired
@@ -30,12 +29,7 @@ public class CommentController {
     @PostMapping("/posts/{id}/comments")
     public ResponseEntity<Object> createComment(@PathVariable Long id, @RequestBody Comment comment) {
         //Optional<Post> postOptional = postRepository.findById(id);
-        Optional<Post> postOptional = postService.findById(id);
-        if (!postOptional.isPresent()) {
-            throw new PostNotFoundException("id-" + id);
-        }
-
-        Post post = postOptional.get();
+        Post post = postService.findPostById(id);
         comment.setPost(post);
 
         commentService.save(comment);
