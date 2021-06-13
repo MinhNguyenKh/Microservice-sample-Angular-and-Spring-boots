@@ -14,6 +14,7 @@ public class PostServiceApplication {
 	}
 
 	@Bean
+	@LoadBalanced
 	public RestTemplate restTemplate(){
 		return new RestTemplate();
 	}
