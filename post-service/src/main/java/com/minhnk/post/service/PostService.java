@@ -8,6 +8,7 @@ import com.minhnk.post.entity.Post;
 import com.minhnk.post.repository.PostRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -24,6 +25,9 @@ public class PostService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Value("${server.port}")
+    private int port;
 
     public Post createPost(Post post) {
         Post savedPost = postRepository.save(post);
@@ -71,6 +75,7 @@ public class PostService {
 
     public String getMessageFromEvenBus(String message) {
         System.out.println(message);
+        System.out.println("POST SERVICE is running on port: " + port);
         return message;
     }
 }
