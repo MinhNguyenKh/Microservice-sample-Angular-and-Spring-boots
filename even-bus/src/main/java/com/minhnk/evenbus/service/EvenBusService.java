@@ -30,9 +30,9 @@ public class EvenBusService {
             queryUrl = ApiUrl.QUERY_SERVICE_API_URL + "posts/" + responseTemplateVO.getPostId() + "/comments";
             queryMessageUrl = ApiUrl.QUERY_SERVICE_API_URL + "events";
         }
-        this.sendMessage(message, url);
-        this.sendMessage(message, queryMessageUrl);
-        this.sendDataToQuery(queryUrl, responseTemplateVO);
+//        this.sendMessage(message, url);
+//        this.sendMessage(message, queryMessageUrl);
+//        this.sendDataToQuery(queryUrl, responseTemplateVO);
         return message;
     }
 

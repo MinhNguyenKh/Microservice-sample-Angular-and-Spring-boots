@@ -46,6 +46,8 @@ public class PostService {
         HttpEntity<SendDataVO> entity = new HttpEntity<SendDataVO>(sendDataVO, headers);
 
         String result = restTemplate.exchange(ApiUrl.EVEN_BUS_SERVICE_API_URL, HttpMethod.POST, entity, String.class).getBody();
+        System.out.println(result);
+        System.out.println("POST SERVICE is running on port: " + port);
         return result;
     }
 

@@ -2,6 +2,7 @@ package com.minhnk.comment.controller;
 
 import com.minhnk.comment.VO.ResponseTemplateVO;
 import com.minhnk.comment.entity.Comment;
+import com.minhnk.comment.message.CustomMessage;
 import com.minhnk.comment.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,5 +39,10 @@ public class CommentController {
     @PostMapping("/events")
     public String getMessageFromEvenBus(@RequestBody String message){
         return commentService.getMessageFromEvenBus(message);
+    }
+
+    @PostMapping("/publish")
+    public String publish(@RequestBody CustomMessage message){
+        return commentService.publishMessage(message);
     }
 }

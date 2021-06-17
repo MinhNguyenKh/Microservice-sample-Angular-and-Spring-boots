@@ -5,7 +5,10 @@ import com.minhnk.comment.VO.ResponseTemplateVO;
 import com.minhnk.comment.VO.SendDataVO;
 import com.minhnk.comment.constant.ApiUrl;
 import com.minhnk.comment.entity.Comment;
+import com.minhnk.comment.message.CustomMessage;
+import com.minhnk.comment.message.MQConfig;
 import com.minhnk.comment.repository.CommentRepository;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -25,6 +28,9 @@ public class CommentService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     public Comment createComment(Comment comment) {
         Comment savedComment = commentRepository.save(comment);
@@ -51,11 +57,17 @@ public class CommentService {
         HttpEntity<SendDataVO> entity = new HttpEntity<SendDataVO>(sendDataVO, headers);
 
         String result = restTemplate.exchange(ApiUrl.EVEN_BUS_API_URL, HttpMethod.POST, entity, String.class).getBody();
+        System.out.println(result);
         return result;
     }
 
     public String getMessageFromEvenBus(String message) {
         System.out.println(message);
         return message;
+    }
+
+    public String publishMessage(CustomMessage customMessage){
+        rabbitTemplate.convertAndSend(MQConfig.TOPIC_EXCHANGE, MQConfig.ROUTING_KEY, customMessage);
+        return "Message published!";
     }
 }
