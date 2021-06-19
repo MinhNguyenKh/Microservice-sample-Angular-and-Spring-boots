@@ -2,6 +2,9 @@ package com.minhnk.evenbus.service;
 
 import com.minhnk.evenbus.VO.ResponseTemplateVO;
 import com.minhnk.evenbus.constant.ApiUrl;
+import com.minhnk.evenbus.message.EvenBusMQConfig;
+import com.minhnk.evenbus.message.post.PostDataMsg;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -11,6 +14,9 @@ public class EvenBusService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     public String getEvent(ResponseTemplateVO responseTemplateVO) {
         String message = "";
@@ -44,6 +50,11 @@ public class EvenBusService {
     public String sendDataToQuery(String queryUrl, ResponseTemplateVO responseTemplateVO){
         String result = restTemplate.postForObject(queryUrl, responseTemplateVO, String.class);
         return result;
+    }
+
+    public String publishMessage(PostDataMsg postDataMsg){
+        rabbitTemplate.convertAndSend(EvenBusMQConfig.TOPIC_EXCHANGE, EvenBusMQConfig.ROUTING_KEY, postDataMsg);
+        return "Message published!";
     }
 
 }

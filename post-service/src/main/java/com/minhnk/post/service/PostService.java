@@ -5,8 +5,10 @@ import com.minhnk.post.VO.ResponseTemplateVO;
 import com.minhnk.post.VO.SendDataVO;
 import com.minhnk.post.constant.ApiUrl;
 import com.minhnk.post.entity.Post;
+import com.minhnk.post.message.PostMQConfig;
+import com.minhnk.post.message.PostDataMsg;
 import com.minhnk.post.repository.PostRepository;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -25,6 +27,9 @@ public class PostService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Value("${server.port}")
     private int port;
@@ -45,10 +50,16 @@ public class PostService {
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<SendDataVO> entity = new HttpEntity<SendDataVO>(sendDataVO, headers);
 
+        //Sending message to even-bus by RabbitMQ
+        PostDataMsg postDataMsg = new PostDataMsg();
+        postDataMsg.setId(savedPost.getId());
+        postDataMsg.setTitle(savedPost.getTitle());
+        this.publishMessage(postDataMsg);
+
         String result = restTemplate.exchange(ApiUrl.EVEN_BUS_SERVICE_API_URL, HttpMethod.POST, entity, String.class).getBody();
         System.out.println(result);
         System.out.println("POST SERVICE is running on port: " + port);
-        return result;
+        return "result";
     }
 
     public List<Post> getAllPosts() {
@@ -79,5 +90,10 @@ public class PostService {
         System.out.println(message);
         System.out.println("POST SERVICE is running on port: " + port);
         return message;
+    }
+
+    public String publishMessage(PostDataMsg postDataMsg){
+        rabbitTemplate.convertAndSend(PostMQConfig.TOPIC_EXCHANGE, PostMQConfig.ROUTING_KEY, postDataMsg);
+        return "Message published!";
     }
 }
