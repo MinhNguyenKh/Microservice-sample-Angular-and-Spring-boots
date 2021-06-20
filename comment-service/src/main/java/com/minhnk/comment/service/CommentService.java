@@ -59,6 +59,7 @@ public class CommentService {
         commentDataMsg.setId(savedComment.getId());
         commentDataMsg.setContent(savedComment.getContent());
         commentDataMsg.setPostId(savedComment.getPostId());
+        this.publishMessage(commentDataMsg);
 
         String result = restTemplate.exchange(ApiUrl.EVEN_BUS_API_URL, HttpMethod.POST, entity, String.class).getBody();
         System.out.println(result);
