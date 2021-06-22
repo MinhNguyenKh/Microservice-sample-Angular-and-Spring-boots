@@ -44,7 +44,7 @@ public class CommentService {
         return commentRepository.findAll();
     }
 
-    public String sendDataToEvenBus(Comment savedComment){
+    public void sendDataToEvenBus(Comment savedComment){
         SendDataVO sendDataVO = new SendDataVO();
         sendDataVO.setType("Comment created");
         sendDataVO.setId(savedComment.getId());
@@ -61,9 +61,9 @@ public class CommentService {
         commentDataMsg.setPostId(savedComment.getPostId());
         this.publishMessage(commentDataMsg);
 
-        String result = restTemplate.exchange(ApiUrl.EVEN_BUS_API_URL, HttpMethod.POST, entity, String.class).getBody();
-        System.out.println(result);
-        return result;
+//        String result = restTemplate.exchange(ApiUrl.EVEN_BUS_API_URL, HttpMethod.POST, entity, String.class).getBody();
+//        System.out.println(result);
+//        return result;
     }
 
     public String getMessageFromEvenBus(String message) {

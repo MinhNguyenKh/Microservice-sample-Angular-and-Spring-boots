@@ -1,4 +1,4 @@
-package com.minhnk.query.message.evenbus;
+package com.minhnk.evenbus.message.query;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class CustomMessageData {
+public class QueryDataMsg {
 
     private Long postId;
 

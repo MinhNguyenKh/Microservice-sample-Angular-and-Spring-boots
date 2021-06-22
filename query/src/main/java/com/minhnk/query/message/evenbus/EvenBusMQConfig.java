@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class EvenBusMQConfig {
 
-    public static final String QUEUE = "even_bus_queue";
-    public static final String TOPIC_EXCHANGE = "even_bus_exchange";
-    public static final String ROUTING_KEY = "even_bus_key";
+    public static final String QUEUE = "query_queue";
+    public static final String TOPIC_EXCHANGE = "query_exchange";
+    public static final String ROUTING_KEY = "query_key";
 
     @Bean
     public Queue evenBusQueue(){

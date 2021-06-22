@@ -36,11 +36,11 @@ public class PostService {
 
     public Post createPost(Post post) {
         Post savedPost = postRepository.save(post);
-        String sendingResult = this.sendDataToEvenBus(savedPost);
+        this.sendDataToEvenBus(savedPost);
         return savedPost;
     }
 
-    public String sendDataToEvenBus(Post savedPost){
+    public void sendDataToEvenBus(Post savedPost){
         SendDataVO sendDataVO = new SendDataVO();
         sendDataVO.setType("Post created");
         sendDataVO.setId(savedPost.getId());
@@ -56,10 +56,10 @@ public class PostService {
         postDataMsg.setTitle(savedPost.getTitle());
         this.publishMessage(postDataMsg);
 
-        String result = restTemplate.exchange(ApiUrl.EVEN_BUS_SERVICE_API_URL, HttpMethod.POST, entity, String.class).getBody();
-        System.out.println(result);
-        System.out.println("POST SERVICE is running on port: " + port);
-        return "result";
+//        String result = restTemplate.exchange(ApiUrl.EVEN_BUS_SERVICE_API_URL, HttpMethod.POST, entity, String.class).getBody();
+//        System.out.println(result);
+//        System.out.println("POST SERVICE is running on port: " + port);
+//        return "result";
     }
 
     public List<Post> getAllPosts() {

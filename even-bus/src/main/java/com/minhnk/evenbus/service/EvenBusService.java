@@ -2,8 +2,10 @@ package com.minhnk.evenbus.service;
 
 import com.minhnk.evenbus.VO.ResponseTemplateVO;
 import com.minhnk.evenbus.constant.ApiUrl;
-import com.minhnk.evenbus.message.EvenBusMQConfig;
-import com.minhnk.evenbus.message.post.PostDataMsg;
+import com.minhnk.evenbus.message.EvenBusDataMsg;
+import com.minhnk.evenbus.message.comment.CommentMQConfig;
+import com.minhnk.evenbus.message.post.PostMQConfig;
+import com.minhnk.evenbus.message.query.QueryMQConfig;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,8 +54,13 @@ public class EvenBusService {
         return result;
     }
 
-    public String publishMessage(PostDataMsg postDataMsg){
-        rabbitTemplate.convertAndSend(EvenBusMQConfig.TOPIC_EXCHANGE, EvenBusMQConfig.ROUTING_KEY, postDataMsg);
+    public String publishMessage(EvenBusDataMsg evenBusDataMsg, String destination){
+        if("Post".equalsIgnoreCase(destination)){
+            rabbitTemplate.convertAndSend(PostMQConfig.TOPIC_EXCHANGE, PostMQConfig.ROUTING_KEY, evenBusDataMsg);
+        }else{
+            rabbitTemplate.convertAndSend(CommentMQConfig.TOPIC_EXCHANGE, CommentMQConfig.ROUTING_KEY, evenBusDataMsg);
+        }
+        rabbitTemplate.convertAndSend(QueryMQConfig.TOPIC_EXCHANGE, QueryMQConfig.ROUTING_KEY, evenBusDataMsg);
         return "Message published!";
     }
 
