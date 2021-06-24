@@ -1,16 +1,14 @@
 package com.minhnk.comment.service;
 
 import com.minhnk.comment.VO.SendDataVO;
-import com.minhnk.comment.constant.ApiUrl;
 import com.minhnk.comment.entity.Comment;
-import com.minhnk.comment.message.CommentDataMsg;
-import com.minhnk.comment.message.CommentMQConfig;
+import com.minhnk.comment.message.CustomDataMsg;
+import com.minhnk.comment.message.producer.CommentProducerMQConfig;
 import com.minhnk.comment.repository.CommentRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -55,11 +53,12 @@ public class CommentService {
         HttpEntity<SendDataVO> entity = new HttpEntity<SendDataVO>(sendDataVO, headers);
 
         //Sending message to even-bus by RabbitMQ
-        CommentDataMsg commentDataMsg = new CommentDataMsg();
-        commentDataMsg.setId(savedComment.getId());
-        commentDataMsg.setContent(savedComment.getContent());
-        commentDataMsg.setPostId(savedComment.getPostId());
-        this.publishMessage(commentDataMsg);
+        CustomDataMsg customDataMsg = new CustomDataMsg();
+        customDataMsg.setCommentId(savedComment.getId());
+        customDataMsg.setContent(savedComment.getContent());
+        customDataMsg.setPostId(savedComment.getPostId());
+        customDataMsg.setType("Comment");
+        this.publishMessage(customDataMsg);
 
 //        String result = restTemplate.exchange(ApiUrl.EVEN_BUS_API_URL, HttpMethod.POST, entity, String.class).getBody();
 //        System.out.println(result);
@@ -71,8 +70,8 @@ public class CommentService {
         return message;
     }
 
-    public String publishMessage(CommentDataMsg commentDataMsg){
-        rabbitTemplate.convertAndSend(CommentMQConfig.TOPIC_EXCHANGE, CommentMQConfig.ROUTING_KEY, commentDataMsg);
+    public String publishMessage(CustomDataMsg customDataMsg){
+        rabbitTemplate.convertAndSend(CommentProducerMQConfig.COMMENT_PRODUCER_TOPIC_EXCHANGE, CommentProducerMQConfig.COMMENT_PRODUCER_ROUTING_KEY, customDataMsg);
         return "Message published!";
     }
 }

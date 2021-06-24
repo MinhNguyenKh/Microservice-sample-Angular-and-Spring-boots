@@ -1,15 +1,17 @@
-package com.minhnk.query.message.evenbus;
+package com.minhnk.evenbus.message;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class CustomMessageData {
+public class CustomDataMsg implements Serializable {
 
     private Long postId;
 

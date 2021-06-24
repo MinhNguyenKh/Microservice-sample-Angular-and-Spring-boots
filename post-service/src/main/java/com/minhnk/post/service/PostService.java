@@ -5,8 +5,8 @@ import com.minhnk.post.VO.ResponseTemplateVO;
 import com.minhnk.post.VO.SendDataVO;
 import com.minhnk.post.constant.ApiUrl;
 import com.minhnk.post.entity.Post;
-import com.minhnk.post.message.PostMQConfig;
-import com.minhnk.post.message.PostDataMsg;
+import com.minhnk.post.message.CustomDataMsg;
+import com.minhnk.post.message.producer.PostProducerMQConfig;
 import com.minhnk.post.repository.PostRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +51,11 @@ public class PostService {
         HttpEntity<SendDataVO> entity = new HttpEntity<SendDataVO>(sendDataVO, headers);
 
         //Sending message to even-bus by RabbitMQ
-        PostDataMsg postDataMsg = new PostDataMsg();
-        postDataMsg.setId(savedPost.getId());
-        postDataMsg.setTitle(savedPost.getTitle());
-        this.publishMessage(postDataMsg);
+        CustomDataMsg customDataMsg = new CustomDataMsg();
+        customDataMsg.setPostId(savedPost.getId());
+        customDataMsg.setTitle(savedPost.getTitle());
+        customDataMsg.setType("Post");
+        this.publishMessage(customDataMsg);
 
 //        String result = restTemplate.exchange(ApiUrl.EVEN_BUS_SERVICE_API_URL, HttpMethod.POST, entity, String.class).getBody();
 //        System.out.println(result);
@@ -92,8 +93,8 @@ public class PostService {
         return message;
     }
 
-    public String publishMessage(PostDataMsg postDataMsg){
-        rabbitTemplate.convertAndSend(PostMQConfig.TOPIC_EXCHANGE, PostMQConfig.ROUTING_KEY, postDataMsg);
+    public String publishMessage(CustomDataMsg postDataMsg){
+        rabbitTemplate.convertAndSend(PostProducerMQConfig.POST_PRODUCER_TOPIC_EXCHANGE, PostProducerMQConfig.POST_PRODUCER_ROUTING_KEY, postDataMsg);
         return "Message published!";
     }
 }
