@@ -1,0 +1,14 @@
+<div class="card my-5">
+    <div class="card-body">
+        <form (ngSubmit)="onSubmit()" #postForm="ngForm">
+            <button type="submit" class="btn btn-info" id="logout" (click)="logout()">Logout</button>
+            <div class="form-group">                
+                <label for="title">Title</label>                
+                <input type="text" [(ngModel)]="post.title" class="form-control" id="title" name="title"
+                    placeholder="Enter post title">
+            </div>
+            <button type="submit" class="btn btn-info" id="createPostBtn">Submit</button>
+        </form>
+    </div>
+</div>
+<app-post-list></app-post-list>

@@ -1,0 +1,26 @@
+<div class="card my-5">
+    <div class="card-body">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Title</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let postData of postDataArr">
+                    <td>{{ postData.id }}</td>
+                    <td>
+                        {{ postData.title }}
+                        <div *ngIf="postData.comments">
+                            <ul *ngFor="let comment of postData.comments">
+                                <li>{{comment.content}}</li>
+                            </ul>
+                        </div>
+                        <app-comment-form [postId]=postData.id></app-comment-form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
