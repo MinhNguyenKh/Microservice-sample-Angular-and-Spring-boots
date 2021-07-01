@@ -26,6 +26,7 @@ public class EvenBusConsumerMsgListener {
             Post post = new Post();
             post.setId(customMessageData.getPostId());
             post.setTitle(customMessageData.getTitle());
+            post.setStatus(customMessageData.getPostStatus());
             postService.save(post);
         }else{
             Post post = postService.findPostById(customMessageData.getPostId());

@@ -22,4 +22,6 @@ public class CustomDataMsg implements Serializable {
     private String content;
 
     private String type;
+
+    private String postStatus;
 }

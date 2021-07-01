@@ -21,4 +21,6 @@ public class CustomDataMsg {
 
     private String type;
 
+    private String postStatus;
+
 }

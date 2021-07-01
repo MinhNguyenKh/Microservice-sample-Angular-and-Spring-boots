@@ -19,6 +19,8 @@ public class Post {
 
     private String title;
 
+    private String status;
+
     @OneToMany(mappedBy = "post")
     private List<Comment> comments;
 

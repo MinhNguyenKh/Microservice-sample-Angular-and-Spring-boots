@@ -55,6 +55,7 @@ public class PostService {
         customDataMsg.setPostId(savedPost.getId());
         customDataMsg.setTitle(savedPost.getTitle());
         customDataMsg.setType("Post");
+        customDataMsg.setPostStatus("Approved");
         this.publishMessage(customDataMsg);
 
 //        String result = restTemplate.exchange(ApiUrl.EVEN_BUS_SERVICE_API_URL, HttpMethod.POST, entity, String.class).getBody();
