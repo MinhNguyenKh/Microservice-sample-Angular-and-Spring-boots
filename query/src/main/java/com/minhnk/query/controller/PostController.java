@@ -23,11 +23,24 @@ public class PostController {
         return postService.findAll();
     }
 
+    @GetMapping("/posts/{status}")
+    public List<Post> findAllPostByStatus(@PathVariable String status) {
+        return postService.findAllPostByStatus(status);
+    }
+
     @PostMapping("/posts")
-    public ResponseEntity<Object> createPost(@RequestBody Post post) {
+    public ResponseEntity<Post> createPost(@RequestBody Post post) {
         Post savedPost = postService.save(post);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedPost.getId())
                 .toUri();
         return ResponseEntity.created(location).build();
+    }
+
+    @PutMapping("/updatePosts")
+    public List<Post> updatePost(@RequestBody List<Post> postList) {
+        if(postList != null && !postList.isEmpty()){
+            return postService.updatePostStatus(postList);
+        }
+        return null;
     }
 }
