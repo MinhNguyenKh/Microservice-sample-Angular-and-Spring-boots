@@ -1,0 +1,52 @@
+version: '3.7'
+services:
+    rabbitmq:
+        container_name: rabbitmq
+        image: rabbitmq:3.7-management
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+        restart: always
+        networks:
+            - service-compose-network
+
+    server-registry:
+        container_name: server-registry
+        image: service-registry
+        ports:
+            - "8761:8761"
+        restart: always
+        networks:
+            - service-compose-network
+    
+    zipkin-server:
+        container_name: zipkin-server
+        image: openzipkin/zipkin
+        environment:
+            STORAGE_TYPE: mem
+            RABBIT_URI: amqp://guest:guest@rabbitmq:5672        
+        ports:
+            - "9411:9411"
+        depends_on:
+            - rabbitmq           
+        restart: always
+        networks:
+            - service-compose-network  
+
+    config-server:
+        container_name: config-server
+        image: config-server
+        ports:
+            - "9296:9296"
+        restart: always
+        depends_on:
+            - server-registry
+        networks:
+            - service-compose-network
+
+networks:
+    service-compose-network:
+
+
+
+        
