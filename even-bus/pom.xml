@@ -86,6 +86,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>even-bus</finalName>
 	</build>
 
 </project>

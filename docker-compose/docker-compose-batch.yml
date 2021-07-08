@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+    batch:
+        container_name: batch
+        image: batch
+        ports:
+            - "8080:8080"            
+        restart: always
+        networks:
+            - service-compose-network            
+
+networks:
+    service-compose-network:
+
+
+
+        

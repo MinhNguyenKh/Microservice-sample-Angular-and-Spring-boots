@@ -13,19 +13,19 @@ spring:
             allowedMethods: "*"
             allowedHeaders: "*"
       routes:
-        - id: POST-SERVICE
-          uri: lb://POST-SERVICE
+        - id: post-service
+          uri: http://post-service:4000
           predicates:
             - Path=/api/posts/**
-        - id: COMMENT-SERVICE
-          uri: lb://COMMENT-SERVICE
+        - id: comment-service
+          uri: http://comment-service:4001
           predicates:
             - Path=/api/comments/**
-        - id: EVEN-BUS-SERVICE
-          uri: lb://EVEN-BUS-SERVICE
+        - id: even-bus
+          uri: http://even-bus:4002
           predicates:
             - Path=/api/events/**
-        - id: QUERY-SERVICE
-          uri: lb://QUERY-SERVICE
+        - id: query-service
+          uri: http://query-service:4003
           predicates:
             - Path=/api/query/**

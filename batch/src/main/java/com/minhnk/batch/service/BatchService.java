@@ -20,7 +20,7 @@ public class BatchService {
     public List<ResponseTemplateVO> getAllPostWithComments() {
 
         List<ResponseTemplateVO> voList = new ArrayList<ResponseTemplateVO>();
-        ResponseEntity<ResponseTemplateVO[]> responseEntity = restTemplate.getForEntity("http://localhost:5000/api/query/posts/P", ResponseTemplateVO[].class);
+        ResponseEntity<ResponseTemplateVO[]> responseEntity = restTemplate.getForEntity("http://api-gateway:5000/api/query/posts/P", ResponseTemplateVO[].class);
         ResponseTemplateVO[] responseTemplateVO = responseEntity.getBody();
 
         voList = Arrays.asList(responseTemplateVO);
@@ -28,7 +28,7 @@ public class BatchService {
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<List<ResponseTemplateVO>> entity = new HttpEntity<List<ResponseTemplateVO>>(voList, headers);
 
-        String result = restTemplate.exchange("http://localhost:5000/api/query/updatePosts", HttpMethod.PUT, entity, String.class).getBody();
+        String result = restTemplate.exchange("http://api-gateway:5000/api/query/updatePosts", HttpMethod.PUT, entity, String.class).getBody();
 
         return voList;
     }

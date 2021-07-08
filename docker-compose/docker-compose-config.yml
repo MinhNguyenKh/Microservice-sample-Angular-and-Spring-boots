@@ -9,18 +9,9 @@ services:
         restart: always
         networks:
             - service-compose-network
-
-    server-registry:
-        container_name: server-registry
-        image: service-registry
-        ports:
-            - "8761:8761"
-        restart: always
-        networks:
-            - service-compose-network
     
-    zipkin-server:
-        container_name: zipkin-server
+    zipkin:
+        container_name: zipkin
         image: openzipkin/zipkin
         environment:
             STORAGE_TYPE: mem
@@ -31,7 +22,16 @@ services:
             - rabbitmq           
         restart: always
         networks:
-            - service-compose-network  
+            - service-compose-network
+
+    server-registry:
+        container_name: server-registry
+        image: service-registry
+        ports:
+            - "8761:8761"
+        restart: always
+        networks:
+            - service-compose-network
 
     config-server:
         container_name: config-server
@@ -42,7 +42,7 @@ services:
         depends_on:
             - server-registry
         networks:
-            - service-compose-network
+            - service-compose-network        
 
 networks:
     service-compose-network:

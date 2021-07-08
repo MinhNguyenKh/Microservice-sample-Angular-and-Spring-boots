@@ -1,5 +1,15 @@
 version: '3.7'
-services:  
+services:
+
+    api-gateway:
+        container_name: api-gateway
+        image: api-gateway        
+        ports:
+            - "5000:5000"
+        restart: always        
+        networks:
+            - service-compose-network
+
     query-service:
         container_name: query-service
         image: query-service
@@ -7,6 +17,50 @@ services:
             RABBIT_URI: amqp://guest:guest@rabbitmq:5672
         ports:
             - "4003:4003"
+        depends_on:
+            - api-gateway
+        restart: always        
+        networks:
+            - service-compose-network    
+    
+    even-bus:
+        container_name: even-bus
+        image: even-bus
+        environment:
+            RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+        ports:
+            - "4002:4002"
+        depends_on:
+            - query-service
+        restart: always        
+        networks:
+            - service-compose-network
+
+    post-service:
+        container_name: post-service
+        image: post-service
+        environment:
+            RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+        ports:
+            - "4000:4000"
+        depends_on:
+            - even-bus
+            - api-gateway
+        restart: always        
+        networks:
+            - service-compose-network
+
+    comment-service:
+        container_name: comment-service
+        image: comment-service
+        environment:
+            RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+        ports:
+            - "4001:4001"
+        depends_on:
+            - post-service
+            - even-bus
+            - api-gateway
         restart: always        
         networks:
             - service-compose-network

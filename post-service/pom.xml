@@ -94,6 +94,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>post-service</finalName>
 	</build>
 
 </project>
